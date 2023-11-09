@@ -62,6 +62,7 @@ namespace orderMaker
                     AppData.password = reader["password"].ToString();
                     AppData.staff_id = Convert.ToInt32(reader["staff_id"].ToString());
                     AppData.isLogin = true;
+                    AppData.isAdmin = Int32.Parse(reader["isAdmin"].ToString());
                     MessageBox.Show("Welcome " + reader["first_name"].ToString() + " " + reader["last_name"].ToString());
                     Close();
                 }

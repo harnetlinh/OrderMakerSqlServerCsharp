@@ -13,10 +13,18 @@ namespace orderMaker
             ApplicationConfiguration.Initialize();
             Login formLogin = new Login();
             Application.Run(formLogin);
-            if(AppData.isLogin == true)
+            if (AppData.isLogin == true)
             {
-                Application.Run(new Form1());
+                if (AppData.isAdmin == 1)
+                {
+                    Application.Run(new Form1());
+                }
+                else
+                {
+                    Application.Run(new Staff());
+                }
             }
+                
         }
     }
 }

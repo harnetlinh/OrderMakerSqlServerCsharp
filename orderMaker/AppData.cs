@@ -13,5 +13,7 @@ namespace orderMaker
         public static String email;
         public static String password;
         public static bool isLogin;
+        public static int role;
+        public static int isAdmin;
     }
 }
