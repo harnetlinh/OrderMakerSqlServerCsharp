@@ -7,7 +7,7 @@ namespace orderMaker
     {
         SqlConnection conn;
 
-        List<Product> products;
+        List<Product> products = new List<Product>();
 
         public Form1()
         {
@@ -91,15 +91,22 @@ namespace orderMaker
             {
                 int productId = Int32.Parse(reader["product_id"].ToString());
                 string productName = reader["product_name"].ToString();
-                int listPrice = Int32.Parse(reader["list_price"].ToString());
-                products.Add(new Product(productId, productName, listPrice));
-                cbProduct.Items.Add(productId);
+                double listPrice = Convert.ToDouble(reader["list_price"].ToString());
+                Product _product = new Product(productId, productName, listPrice);
+                products.Add(_product);
             }
+            cbProduct.DataSource = products;
+            cbProduct.DisplayMember = "ProductName";
+            cbProduct.ValueMember = "productId";
             conn.Close();
         }
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
+
+            int productId = Convert.ToInt32(cbProduct.SelectedValue);
+            Product choosenProduct = products.Find(x => x.productId == productId);
+
             DataTable table = new DataTable();
             table.Columns.Add("Id", typeof(int));
             table.Columns.Add("Name", typeof(string));
@@ -117,16 +124,14 @@ class Item
 {
     public int productId { get; set; }
     public int quantity { get; set; }
-    public int listPrice { get; set; }
+    public double listPrice { get; set; }
     public int item { get; set; }
-    public int discount { get; set; }
 
-    public Item(int productId, int quantity, int listPrice, int discount)
+    public Item(int productId, int quantity, double listPrice)
     {
         this.productId = productId;
         this.quantity = quantity;
         this.listPrice = listPrice;
-        this.discount = discount;
         this.item = 0;
     }
 }
@@ -135,13 +140,16 @@ class Product
 {
     public int productId { get; set; }
     public string productName { get; set; }
-    public int listPrice { get; set; }
+    public double listPrice { get; set; }
 
-    public Product(int ProductId, string ProductName, int listPrice)
+    public string Text;
+
+    public Product(int ProductId, string ProductName, double listPrice)
     {
         this.productId = ProductId;
         this.productName = ProductName;
         this.listPrice = listPrice;
+        this.Text = this.productName + " - " + this.listPrice;
     }
 
 }
